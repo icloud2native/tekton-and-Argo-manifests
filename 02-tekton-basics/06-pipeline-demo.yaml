@@ -1,0 +1,16 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: pipeline-demo
+spec:
+  tasks:
+  - name: first-task
+    taskRef:
+      name: hello
+  - name: second-task
+    taskRef:
+      name: mulit-step
+    # 定义task执行的顺序，第二个task要在第一个task执行完执行
+    runAfter:
+    - first-task
+

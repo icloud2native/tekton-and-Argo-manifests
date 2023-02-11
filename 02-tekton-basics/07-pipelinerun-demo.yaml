@@ -1,0 +1,9 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: pipeline-demo-run-xxxx
+spec:
+  pipelineRef:
+    name: pipeline-demo
+  serviceAccountName: default   # 为运行各taskrun的pod指定要使用的ServiceAccount  
+  timeout: 1h0m0s  # 错误退出前的超时时间

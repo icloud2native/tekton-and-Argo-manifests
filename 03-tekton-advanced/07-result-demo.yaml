@@ -1,0 +1,27 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: generate-buildid
+spec:
+  params:
+  - name: version
+    type: string
+    default: "v0.1"
+  results:
+  - name: datetime
+  -  name: buildid
+  steps:
+  - name: generate-datetime
+    image: ikubernetes/admin-box:v1.2
+    script: |
+      #!/bin/sh
+      datetime=`date +%Y%m%d-%H%M%S`
+      echo -n ${datetime} | tee $(results.datetime.path)
+  - name: generate-buildid
+    image: ikubernetes/admin-box:v1.2
+    script: |
+      #!/bin/sh
+      buildDatetime=`cat $(results.datetime.path)`
+      buildId=$(params.version)-${buildDatetime}
+      echo -n ${buildId} | tee $(results.buildid.path)
+

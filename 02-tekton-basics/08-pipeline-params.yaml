@@ -1,0 +1,25 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: pipeline-demo-02
+spec:
+  params:
+  - name: ptarget
+    type: string
+    default: "icloud2native"
+  - name: ptext
+    type: string
+    default: "welcome to cloudnative"
+  tasks:
+  - name: first-task
+    taskRef:
+      name: hello-params
+    params:
+    - name: target
+      value: $(params.ptarget)
+  - name: second-task
+    taskRef:
+      name: logger
+    params:
+    - name: text
+      value: $(params.ptext)

@@ -1,0 +1,50 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: gitlab
+  namespace: gitlab
+spec:
+  host: gitlab
+  trafficPolicy:
+    tls:
+      mode: DISABLE
+---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: gitlab-gateway
+  namespace: istio-system
+spec:
+  selector:
+    app: istio-ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "gitlab.icloud2native.com"
+    - "code.icloud2native.com"
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: gitlab-virtualservice
+  namespace: gitlab
+spec:
+  hosts:
+  - "code.icloud2native.com"
+  - "gitlab.icloud2native.com"
+  gateways:
+  - istio-system/gitlab-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: gitlab
+        port:
+          number: 31080
+---

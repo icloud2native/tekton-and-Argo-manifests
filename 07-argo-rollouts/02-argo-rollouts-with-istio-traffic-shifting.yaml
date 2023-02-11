@@ -1,0 +1,12 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: rollouts-helloworld-with-traffic-shifting
+spec:
+  replicas: 10
+  strategy:
+    canary:
+      trafficRouting:
+        istio:
+          virtualService:
+            name: 

@@ -1,0 +1,14 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: piplinerun-params-xxx
+spec:
+  params:
+  - name: ptarget
+    value: "cute littleboy"
+  - name: ptext
+    value: "someting happend"
+  pipelineRef:
+    name: pipeline-demo-02
+  serviceAccountName: default
+  timeout: 10m10s
